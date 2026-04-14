@@ -1,0 +1,268 @@
+:root {
+  --auto-red: #e30613;
+  --auto-red-hover: #c70511;
+  --auto-black: #0b0b0b;
+  --auto-bg: #f3f4f6;
+  --auto-card: #ffffff;
+  --auto-border: rgba(17, 24, 39, 0.12);
+}
+
+body {
+  margin: 0;
+  background: var(--auto-bg);
+  color: #111827;
+}
+
+.navbar {
+  background: var(--auto-black) !important;
+}
+
+.navbar-brand,
+.nav-link {
+  color: #fff !important;
+}
+
+.nav-link:hover {
+  color: #ffd9dc !important;
+}
+
+.app-main {
+  min-height: 100vh;
+}
+
+.app-breadcrumbs {
+  margin-top: 10px;
+  margin-bottom: 8px;
+}
+
+.app-breadcrumbs .breadcrumb-item a {
+  color: var(--auto-red);
+  text-decoration: none;
+}
+
+.filter-bar {
+  background: var(--auto-card);
+  border: 1px solid var(--auto-border);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.btn-primary,
+.btn-dark {
+  background-color: var(--auto-red);
+  border-color: var(--auto-red);
+}
+
+.btn-primary:hover,
+.btn-dark:hover {
+  background-color: var(--auto-red-hover);
+  border-color: var(--auto-red-hover);
+}
+
+.service-card {
+  border: 1px solid var(--auto-border);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+.service-card img {
+  height: 190px;
+  object-fit: cover;
+  background: #eceff1;
+}
+
+.service-details-video {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  background: #111;
+}
+
+.cart-pill {
+  font-size: 1.25rem;
+}
+
+.app-topbar {
+  background: #fff !important;
+  border-bottom: 1px solid #eceff3;
+  min-height: 86px;
+}
+
+.app-logo {
+  font-size: 42px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -1px;
+  text-transform: lowercase;
+  color: var(--auto-red) !important;
+}
+
+.app-topbar__nav .nav-link {
+  color: #111827 !important;
+  font-weight: 700;
+  margin-left: 12px;
+}
+
+.app-topbar__nav .nav-link:hover {
+  color: var(--auto-red) !important;
+}
+
+.catalog-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.cart-icon-lab {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: #101b33;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  position: relative;
+}
+
+.cart-icon-lab .badge {
+  position: absolute;
+  top: -5px;
+  right: -7px;
+  font-size: 10px;
+}
+
+.search-form-lab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.search-input-wrap {
+  flex: 1;
+}
+
+.search-input-lab {
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid #d7dbe1;
+  background: #f8f9fb;
+  font-size: 16px;
+  padding-left: 14px;
+}
+
+.search-input-lab::placeholder {
+  color: #aeb5bf;
+}
+
+.search-btn-lab {
+  width: 56px;
+  height: 44px;
+  border-radius: 10px;
+  border: 0;
+  background: #101b33;
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.application-card {
+  background: #f8f8f9;
+  border: 1px solid rgba(227, 6, 19, 0.2);
+  border-radius: 12px;
+  padding: 18px 16px 20px;
+}
+
+.application-card__title {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 800;
+  color: #1f2937;
+}
+
+.application-card__meta {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.application-card__meta-item strong {
+  color: #111827;
+}
+
+.application-card__label {
+  font-weight: 700;
+  color: #374151;
+}
+
+.application-card .form-control,
+.application-card .form-select {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.application-card__delete-btn {
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-weight: 600;
+}
+
+.application-lines {
+  background: #f6f6f7;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.application-lines__head,
+.application-lines__row {
+  display: grid;
+  grid-template-columns: 90px 1.7fr 80px 140px 1.2fr;
+  align-items: center;
+  gap: 16px;
+}
+
+.application-lines__head {
+  background: #ececef;
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 14px;
+}
+
+.application-lines__row {
+  padding: 10px 14px;
+  border-top: 1px solid #e6e8eb;
+}
+
+.application-lines__img-wrap {
+  width: 74px;
+  height: 56px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #d8dde4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.application-lines__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.application-lines__title {
+  color: #1f2937;
+}
+
+.application-lines__qty {
+  font-weight: 700;
+}
+
+.application-lines__remain {
+  color: #374151;
+  line-height: 1.35;
+}
