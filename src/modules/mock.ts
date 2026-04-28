@@ -44,11 +44,6 @@ export const MOCK_SERVICES: BrakePadService[] = [
   },
 ];
 
-export const MOCK_CART = {
-  draftId: 11,
-  itemsCount: 2,
-};
-
 export function fallbackImageUrl(): string {
   return (
     "data:image/svg+xml," +

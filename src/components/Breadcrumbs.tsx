@@ -10,7 +10,6 @@ export default function Breadcrumbs() {
   const parts = useMemo(() => {
     const detail = matchPath(ROUTES.SERVICE_DETAILS, pathname);
     if (pathname === "/") return [{ label: "Каталог", to: undefined }];
-    if (pathname === ROUTES.CART) return [{ label: "Каталог", to: "/" }, { label: "Корзина" }];
     if (pathname === ROUTES.ABOUT) return [{ label: "Каталог", to: "/" }, { label: "О проекте" }];
     if (detail?.params.id) {
       const id = Number(detail.params.id);

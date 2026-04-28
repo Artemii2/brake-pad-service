@@ -1,8 +1,8 @@
 import { useMemo, useState } from "react";
-import { Badge, Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import ServiceCard from "../components/ServiceCard";
 import ServiceFilterBar, { type FiltersState } from "../components/ServiceFilterBar";
-import { MOCK_CART, MOCK_SERVICES } from "../modules/mock";
+import { MOCK_SERVICES } from "../modules/mock";
 
 const emptyFilters: FiltersState = { title: "" };
 
@@ -22,12 +22,6 @@ export default function ServicesPage() {
 
   return (
     <Container className="py-4">
-      <div className="catalog-header">
-        <span className="cart-icon-lab" title={`Текущая заявка №${MOCK_CART.draftId}`}>
-          🧺 <Badge bg="danger">{MOCK_CART.itemsCount}</Badge>
-        </span>
-      </div>
-
       <ServiceFilterBar
         value={draft}
         onChange={setDraft}
