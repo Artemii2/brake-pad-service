@@ -1,5 +1,4 @@
 import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../routes";
@@ -7,15 +6,10 @@ import { ROUTES } from "../routes";
 export default function AppNavbar() {
   return (
     <Navbar className="app-topbar">
-      <Container className="justify-content-between">
+      <Container className="app-topbar__container">
         <Navbar.Brand as={Link} to={ROUTES.SERVICES} className="app-logo">
           autodoc-ru
         </Navbar.Brand>
-        <Nav className="app-topbar__nav">
-          <Nav.Link as={Link} to={ROUTES.SERVICES}>
-            Каталог колодок
-          </Nav.Link>
-        </Nav>
       </Container>
     </Navbar>
   );

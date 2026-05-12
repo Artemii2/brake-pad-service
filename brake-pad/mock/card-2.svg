@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
   <defs>
-    <linearGradient id="g4" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#2b2b2b" />
-      <stop offset="100%" style="stop-color:#7f1d1d" />
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2f3338" />
+      <stop offset="100%" style="stop-color:#696f78" />
     </linearGradient>
   </defs>
-  <rect width="800" height="500" fill="url(#g4)" />
+  <rect width="800" height="500" fill="url(#g1)" />
   <text x="400" y="240" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="30" font-weight="700">
-    SUV Heavy Duty
+    Organic Pad
   </text>
 </svg>

@@ -6,6 +6,7 @@ import { useState } from "react";
 
 type Props = {
   service: BrakePadService;
+  similarityScore?: number;
 };
 
 function resolvePhotoSrc(photoUrl: string, imageError: boolean): string {
@@ -13,7 +14,7 @@ function resolvePhotoSrc(photoUrl: string, imageError: boolean): string {
   return resolveMediaUrl(photoUrl);
 }
 
-export default function ServiceCard({ service }: Props) {
+export default function ServiceCard({ service, similarityScore }: Props) {
   const [imageError, setImageError] = useState(false);
   const [img, setImg] = useState(resolvePhotoSrc(service.imageUrl, false));
 
@@ -29,6 +30,12 @@ export default function ServiceCard({ service }: Props) {
         <Card.Title>{service.title}</Card.Title>
         <Card.Text className="text-muted mb-2">{service.padType}</Card.Text>
         <Card.Text className="small flex-grow-1">{service.description}</Card.Text>
+        <Card.Text className="service-card__short-en">{service.shortDescriptionEn}</Card.Text>
+        {typeof similarityScore === "number" ? (
+          <Card.Text className="service-card__similarity">
+            Сходство: <strong>{Math.max(0, similarityScore * 100).toFixed(1)}%</strong>
+          </Card.Text>
+        ) : null}
         <Link to={`/brake-pad/${service.id}`} className="btn btn-dark">
           Подробнее
         </Link>
