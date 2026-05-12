@@ -1,12 +1,44 @@
-import { useMemo } from "react";
-import { Card, Container } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Card, Container, Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { MOCK_SERVICES, fallbackImageUrl, resolveMediaUrl } from "../modules/mock";
+import type { BrakePadService } from "../modules/mock";
+import { fallbackImageUrl, resolveMediaUrl } from "../modules/mock";
+import { getService } from "../modules/servicesApi";
 
 export default function ServiceDetailsPage() {
   const { id } = useParams();
+  const [service, setService] = useState<BrakePadService | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const service = useMemo(() => MOCK_SERVICES.find((x) => x.id === Number(id)) ?? null, [id]);
+  useEffect(() => {
+    let cancelled = false;
+    const serviceId = Number(id);
+
+    const run = async () => {
+      setLoading(true);
+      const data = Number.isFinite(serviceId) ? await getService(serviceId) : null;
+      if (!cancelled) {
+        setService(data);
+        setLoading(false);
+      }
+    };
+
+    void run();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [id]);
+
+  if (loading) {
+    return (
+      <Container className="py-4">
+        <div className="catalog-loading">
+          <Spinner animation="border" size="sm" /> Загрузка услуги...
+        </div>
+      </Container>
+    );
+  }
 
   if (!service) {
     return (
@@ -23,7 +55,7 @@ export default function ServiceDetailsPage() {
           {service.videoUrl ? (
             <video
               className="service-details-card__video"
-              src={service.videoUrl}
+              src={resolveMediaUrl(service.videoUrl)}
               autoPlay
               muted
               loop
@@ -43,6 +75,7 @@ export default function ServiceDetailsPage() {
         <Card.Body className="service-details-card__body">
           <Card.Title className="service-details-card__title">{service.title}</Card.Title>
           <Card.Text className="service-details-card__description">{service.description}</Card.Text>
+          <Card.Text className="service-details-card__description">{service.shortDescriptionEn}</Card.Text>
           <div className="service-details-card__meta">
             <span>{service.padType}</span>
             <span>{service.publishedAt}</span>
