@@ -5,8 +5,8 @@ export default function AboutPage() {
     <Container className="py-4">
       <h1 className="h3">О проекте</h1>
       <p>
-        Демонстрационный SPA для лабораторной 6: React + TypeScript, fetch-запросы через proxy,
-        fallback на mock-коллекцию и мультимодальный поиск похожих карточек через CLIP.
+        Демонстрационный SPA для лабораторной 7: React + TypeScript, Redux Toolkit + thunk,
+        авторизация, работа с заявками и доменом связи м-м через axios и codegen-клиент swagger.
       </p>
     </Container>
   );

@@ -1,8 +1,9 @@
+import axios from "axios";
 import {
-  MOCK_CART,
+  MOCK_BRAKE_WEAR_CART,
   MOCK_SERVICES,
-  type BrakePadCart,
   type BrakePadService,
+  type BrakeWearCart,
   filterMockServicesByTitle,
 } from "./mock";
 
@@ -54,13 +55,23 @@ const API_ROUTES = {
   services: "/api/brake-pad",
   service: (id: number) => `/api/brake-pad/${id}`,
   cart: "/api/brake-wear/cart",
+  addToDraft: (brakePadId: number) => `/api/brake-pad-wear/add/${brakePadId}`,
 };
 
-/** Публичные GET: без cookie (same-origin иначе могут уехать лишние сессии и сломать анонимный доступ). */
-const PUBLIC_GET_INIT: RequestInit = {
-  headers: { Accept: "application/json" },
-  credentials: "omit",
-};
+const baseURL = import.meta.env.VITE_API_BASE_URL ?? "";
+
+/** Для услуг и корзины используем axios без codegen по ТЗ. */
+export const servicesAxios = axios.create({
+  baseURL,
+});
+
+servicesAxios.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 function toNumber(value: unknown, fallback: number): number {
   const n = Number(value);
@@ -116,13 +127,17 @@ function normalizeServiceList(raw: unknown): BrakePadService[] {
   return list.map((item, index) => normalizeService(item as BrakePadServiceJSON, index + 1));
 }
 
-function normalizeCart(raw: BrakePadCartJSON): BrakePadCart {
-  const itemsCount = toNumber(raw.itemsCount ?? raw.items_count ?? raw.brake_pads_count, MOCK_CART.itemsCount);
+function normalizeCart(raw: BrakePadCartJSON): BrakeWearCart {
+  const itemsCount = toNumber(
+    raw.itemsCount ?? raw.items_count ?? raw.brake_pads_count,
+    MOCK_BRAKE_WEAR_CART.brakePadsCount,
+  );
 
+  const draftId = toNumber(raw.draftId ?? raw.draft_id ?? raw.id, MOCK_BRAKE_WEAR_CART.id ?? 0);
   return {
-    draftId: toNumber(raw.draftId ?? raw.draft_id ?? raw.id, MOCK_CART.draftId),
+    id: draftId > 0 ? draftId : undefined,
     hasDraft: Boolean(raw.hasDraft ?? raw.has_draft ?? itemsCount > 0),
-    itemsCount,
+    brakePadsCount: itemsCount,
   };
 }
 
@@ -132,14 +147,12 @@ export function serviceClipDescription(service: BrakePadService): string {
 
 export async function listServices(filters?: ServiceListFilters): Promise<BrakePadService[]> {
   try {
-    const q = new URLSearchParams();
-    if (filters?.title?.trim()) q.append("title", filters.title.trim());
-
-    const path = q.size > 0 ? `${API_ROUTES.services}?${q.toString()}` : API_ROUTES.services;
-    const res = await fetch(path, PUBLIC_GET_INIT);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-    const data = normalizeServiceList(await res.json());
+    const res = await servicesAxios.get(API_ROUTES.services, {
+      params: filters?.title?.trim() ? { title: filters.title.trim() } : undefined,
+      headers: { Accept: "application/json" },
+      withCredentials: false,
+    });
+    const data = normalizeServiceList(res.data);
     return data.length > 0 ? data : filterMockServicesByTitle(filters?.title);
   } catch {
     return filterMockServicesByTitle(filters?.title);
@@ -148,22 +161,31 @@ export async function listServices(filters?: ServiceListFilters): Promise<BrakeP
 
 export async function getService(id: number): Promise<BrakePadService | null> {
   try {
-    const res = await fetch(API_ROUTES.service(id), PUBLIC_GET_INIT);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-    return normalizeService((await res.json()) as BrakePadServiceJSON, id);
+    const res = await servicesAxios.get(API_ROUTES.service(id), {
+      headers: { Accept: "application/json" },
+      withCredentials: false,
+    });
+    return normalizeService(res.data as BrakePadServiceJSON, id);
   } catch {
     return MOCK_SERVICES.find((service) => service.id === id) ?? null;
   }
 }
 
-export async function getCartIcon(): Promise<BrakePadCart> {
+export async function getBrakeWearCart(): Promise<BrakeWearCart> {
   try {
-    const res = await fetch(API_ROUTES.cart, PUBLIC_GET_INIT);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-    return normalizeCart((await res.json()) as BrakePadCartJSON);
+    const res = await servicesAxios.get(API_ROUTES.cart, {
+      headers: { Accept: "application/json" },
+      withCredentials: false,
+    });
+    return normalizeCart(res.data as BrakePadCartJSON);
   } catch {
-    return { ...MOCK_CART };
+    return { ...MOCK_BRAKE_WEAR_CART };
   }
+}
+
+export async function addBrakePadToDraft(brakePadId: number): Promise<void> {
+  await servicesAxios.post(API_ROUTES.addToDraft(brakePadId), null, {
+    headers: { Accept: "application/json" },
+    withCredentials: false,
+  });
 }

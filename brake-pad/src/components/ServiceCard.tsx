@@ -7,6 +7,8 @@ import { useState } from "react";
 type Props = {
   service: BrakePadService;
   similarityScore?: number;
+  onAddToDraft?: (serviceId: number) => void;
+  addDisabled?: boolean;
 };
 
 function resolvePhotoSrc(photoUrl: string, imageError: boolean): string {
@@ -14,7 +16,7 @@ function resolvePhotoSrc(photoUrl: string, imageError: boolean): string {
   return resolveMediaUrl(photoUrl);
 }
 
-export default function ServiceCard({ service, similarityScore }: Props) {
+export default function ServiceCard({ service, similarityScore, onAddToDraft, addDisabled }: Props) {
   const [imageError, setImageError] = useState(false);
   const [img, setImg] = useState(resolvePhotoSrc(service.imageUrl, false));
 
@@ -35,6 +37,16 @@ export default function ServiceCard({ service, similarityScore }: Props) {
           <Card.Text className="service-card__similarity">
             Сходство: <strong>{Math.max(0, similarityScore * 100).toFixed(1)}%</strong>
           </Card.Text>
+        ) : null}
+        {onAddToDraft ? (
+          <button
+            type="button"
+            className="btn btn-outline-dark service-card__add-btn"
+            disabled={addDisabled}
+            onClick={() => onAddToDraft(service.id)}
+          >
+            {addDisabled ? "Добавление..." : "Добавить"}
+          </button>
         ) : null}
         <Link to={`/brake-pad/${service.id}`} className="btn btn-dark">
           Подробнее

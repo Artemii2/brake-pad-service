@@ -9,12 +9,21 @@ export default function Breadcrumbs() {
 
   const parts = useMemo(() => {
     const detail = matchPath(ROUTES.SERVICE_DETAILS, pathname);
+    const wearDetail = matchPath(ROUTES.BRAKE_WEAR, pathname);
     if (pathname === "/") return [{ label: "Каталог", to: undefined }];
     if (pathname === ROUTES.ABOUT) return [{ label: "Каталог", to: "/" }, { label: "О проекте" }];
+    if (pathname === ROUTES.BRAKE_WEARS) return [{ label: "Каталог", to: "/" }, { label: "Заявки" }];
+    if (pathname === ROUTES.SIGN_IN) return [{ label: "Каталог", to: "/" }, { label: "Вход" }];
+    if (pathname === ROUTES.SIGN_UP) return [{ label: "Каталог", to: "/" }, { label: "Регистрация" }];
+    if (pathname === ROUTES.PROFILE) return [{ label: "Каталог", to: "/" }, { label: "Личный кабинет" }];
     if (detail?.params.id) {
       const id = Number(detail.params.id);
       const title = MOCK_SERVICES.find((x) => x.id === id)?.title ?? `Услуга ${id}`;
       return [{ label: "Каталог", to: "/" }, { label: title }];
+    }
+    if (wearDetail?.params.id) {
+      const id = Number(wearDetail.params.id);
+      return [{ label: "Каталог", to: "/" }, { label: "Заявки", to: ROUTES.BRAKE_WEARS }, { label: `Заявка #${id}` }];
     }
     return [{ label: "Каталог", to: "/" }, { label: "Страница" }];
   }, [pathname]);

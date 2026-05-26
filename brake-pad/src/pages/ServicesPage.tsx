@@ -1,19 +1,40 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Alert, Col, Container, Form, ProgressBar, Row, Spinner } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import CartIconLab from "../components/CartIconLab";
 import ServiceCard from "../components/ServiceCard";
 import ServiceFilterBar, { type FiltersState } from "../components/ServiceFilterBar";
 import { useServiceImageSearch } from "../hooks/useServiceImageSearch";
 import type { BrakePadService } from "../modules/mock";
-import { listServices, serviceClipDescription } from "../modules/servicesApi";
+import { notifyBrakeWearCartUpdated } from "../modules/mock";
+import {
+  addBrakePadToDraft,
+  getBrakeWearCart,
+  listServices,
+  serviceClipDescription,
+} from "../modules/servicesApi";
+import { ROUTES } from "../routes";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { setCart } from "../store/slices/brakeWearApplicationSlice";
 
 const emptyFilters: FiltersState = { title: "" };
 
 export default function ServicesPage() {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAppSelector((s) => s.user);
+  const canAddToDraft = isAuthenticated;
   const [draft, setDraft] = useState<FiltersState>(emptyFilters);
   const [items, setItems] = useState<BrakePadService[]>([]);
   const [clipSourceItems, setClipSourceItems] = useState<BrakePadService[]>([]);
   const [loading, setLoading] = useState(true);
+  const [adding, setAdding] = useState(false);
+
+  const syncCart = useCallback(async () => {
+    const cart = await getBrakeWearCart();
+    dispatch(setCart(cart));
+    notifyBrakeWearCartUpdated();
+  }, [dispatch]);
 
   const clipItems = useMemo(
     () =>
@@ -72,6 +93,12 @@ export default function ServicesPage() {
     };
   }, []);
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      void syncCart();
+    }
+  }, [isAuthenticated, syncCart]);
+
   const handleApplyFilters = async () => {
     setLoading(true);
     imageSearch.resetSearch();
@@ -79,6 +106,22 @@ export default function ServicesPage() {
     setItems(data);
     setClipSourceItems(data);
     setLoading(false);
+  };
+
+  const handleAddToDraft = async (serviceId: number) => {
+    if (!isAuthenticated) {
+      navigate(ROUTES.SIGN_IN);
+      return;
+    }
+    setAdding(true);
+    try {
+      await addBrakePadToDraft(serviceId);
+      await syncCart();
+    } catch {
+      void 0;
+    } finally {
+      setAdding(false);
+    }
   };
 
   return (
@@ -149,7 +192,12 @@ export default function ServicesPage() {
           <Row className="g-3">
             {similarItems.map(({ service, score }) => (
               <Col key={service.id} sm={6} lg={4}>
-                <ServiceCard service={service} similarityScore={score} />
+                <ServiceCard
+                  service={service}
+                  similarityScore={score}
+                  onAddToDraft={canAddToDraft ? handleAddToDraft : undefined}
+                  addDisabled={adding}
+                />
               </Col>
             ))}
           </Row>
@@ -160,7 +208,11 @@ export default function ServicesPage() {
         <Row className="g-3 mt-1">
           {visibleItems.map((service) => (
             <Col key={service.id} sm={6} lg={4}>
-              <ServiceCard service={service} />
+              <ServiceCard
+                service={service}
+                onAddToDraft={canAddToDraft ? handleAddToDraft : undefined}
+                addDisabled={adding}
+              />
             </Col>
           ))}
         </Row>

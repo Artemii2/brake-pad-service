@@ -77,19 +77,15 @@ body {
 }
 
 .app-topbar__container {
-  position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   min-height: 86px;
 }
 
 .app-logo {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
   margin: 0 !important;
-  font-size: 42px;
+  font-size: 34px;
   line-height: 1;
   font-weight: 900;
   letter-spacing: -1px;
@@ -115,6 +111,20 @@ body {
   align-items: center;
   gap: 10px;
   margin-bottom: 0;
+}
+
+.catalog-cart-row__text {
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.catalog-cart-row__link {
+  text-decoration: none;
+}
+
+.catalog-cart-row__inactive {
+  opacity: 0.75;
 }
 
 .catalog-search-stack {
@@ -248,12 +258,551 @@ body {
   font-weight: 800;
 }
 
+.service-card__add-btn {
+  margin-bottom: 10px;
+}
+
 .catalog-loading {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   color: #6b7280;
   margin: 6px 0 14px;
+}
+
+.app-topbar__nav .nav-link {
+  color: #374151 !important;
+  font-weight: 600;
+}
+
+.app-topbar__nav .nav-link:hover {
+  color: var(--auto-red) !important;
+}
+
+.app-topbar__link--muted {
+  opacity: 0.55;
+}
+
+.app-topbar__username {
+  align-self: center;
+  margin-left: 8px;
+  font-weight: 700;
+  color: #374151;
+}
+
+.auth-page {
+  display: grid;
+  place-items: center;
+  min-height: calc(100vh - 180px);
+  padding: 20px;
+}
+
+.auth-page__panel {
+  width: min(440px, 100%);
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid var(--auto-border);
+  padding: 20px;
+  box-shadow: 0 8px 22px rgba(17, 24, 39, 0.06);
+}
+
+.auth-page__title {
+  margin: 0 0 14px;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.auth-page__form {
+  display: grid;
+  gap: 10px;
+}
+
+.auth-page__label {
+  font-size: 13px;
+  color: #4b5563;
+  font-weight: 700;
+}
+
+.auth-page__input {
+  min-height: 42px;
+  border-radius: 9px;
+  border: 1px solid #d1d5db;
+  padding: 0 12px;
+}
+
+.auth-page__submit {
+  border: 0;
+  border-radius: 10px;
+  min-height: 44px;
+  background: #101b33;
+  color: #fff;
+  font-weight: 700;
+}
+
+.auth-page__spinner {
+  margin-right: 6px;
+}
+
+.auth-page__error {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+}
+
+.auth-page__footer {
+  margin: 14px 0 0;
+  color: #6b7280;
+}
+
+.profile-page {
+  padding: 18px 0;
+}
+
+.profile-page__panel {
+  background: #fff;
+  border: 1px solid var(--auto-border);
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.brake-wears-page {
+  max-width: 100%;
+}
+
+.brake-wears-page__title {
+  margin: 0 0 14px;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.brake-wears-page__filters {
+  margin-bottom: 0;
+}
+
+.brake-wears-page__filter-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.brake-wears-page__filter-row--secondary {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.brake-wears-page__filter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.brake-wears-page__date-error {
+  margin: 8px 0 0;
+  color: var(--auto-red);
+}
+
+.brake-wears-page__result {
+  margin: 14px 0 10px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.brake-wears-page__empty {
+  margin: 0;
+  color: #6b7280;
+}
+
+.brake-wears-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--auto-border);
+  border-radius: 12px;
+  background: var(--auto-card);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+}
+
+.brake-wears-table {
+  margin-bottom: 0;
+  font-size: 0.88rem;
+  --bs-table-bg: transparent;
+  --bs-table-color: #111827;
+  --bs-table-border-color: var(--auto-border);
+}
+
+.brake-wears-table thead th {
+  background: #f3f4f6;
+  color: #4b5563;
+  border-color: var(--auto-border);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  vertical-align: middle;
+  padding: 10px 12px;
+}
+
+.brake-wears-table tbody td {
+  vertical-align: middle;
+  padding: 8px 12px;
+}
+
+.brake-wears-table tbody tr:nth-child(even) {
+  background: rgba(243, 244, 246, 0.55);
+}
+
+.brake-wears-table__topic {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.brake-wears-table__result {
+  color: var(--auto-red);
+  font-weight: 700;
+}
+
+.brake-wears-table__actions-cell {
+  min-width: 190px;
+}
+
+.brake-wears-table__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.link-button {
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--auto-red);
+  text-decoration: underline;
+}
+
+.brake-wear-page {
+  position: relative;
+  padding: 16px 0 28px;
+  color: #111827;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.application-not-found {
+  margin: 0;
+  border: 1px solid #fecaca;
+  background: #fff1f2;
+  color: #9f1239;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.brake-wear-page__blocking {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(15, 23, 42, 0.5);
+  color: #fff;
+  font-weight: 700;
+}
+
+.brake-wear-detail {
+  border-radius: 14px;
+}
+
+.brake-wear-detail--blocked {
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.brake-wear-detail__header-card {
+  background: #fff;
+  border: 1px solid rgba(227, 6, 19, 0.25);
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.brake-wear-detail__title {
+  margin: 0;
+  font-size: 46px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.brake-wear-detail__info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 26px;
+  margin-top: 14px;
+}
+
+.brake-wear-detail__info-item {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.brake-wear-detail__info-label {
+  color: #111827;
+  font-weight: 600;
+}
+
+.brake-wear-detail__info-value {
+  color: #4b5563;
+}
+
+.brake-wear-page__controls {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 220px));
+  gap: 10px;
+}
+
+.brake-wear-page__control .form-label {
+  color: #111827;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.brake-wear-page__control .form-control {
+  border: 1px solid #d1d5db !important;
+  background: #f9fafb !important;
+  border-radius: 8px;
+  color: #111827 !important;
+}
+
+.brake-wear-page__description {
+  margin-top: 14px;
+}
+
+.brake-wear-page__description .form-label {
+  color: #8ca1b5;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.brake-wear-page__description textarea {
+  background: #0b1a2a !important;
+  border: 1px solid #23415c !important;
+  border-radius: 10px;
+  color: #e8f0f7 !important;
+}
+
+.brake-wear-page__description textarea:focus {
+  border-color: rgba(227, 6, 19, 0.75) !important;
+  box-shadow: 0 0 0 2px rgba(227, 6, 19, 0.2);
+}
+
+.brake-wear-page__method-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.brake-wear-page__header-actions {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.brake-wear-page__method-btn {
+  border: 1px solid #d1d5db;
+  background: #fff;
+  color: #1f2937;
+  border-radius: 10px;
+  padding: 9px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.brake-wear-page__method-btn:hover:not(:disabled) {
+  border-color: #e30613;
+  color: #e30613;
+}
+
+.brake-wear-page__method-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.brake-wear-page__method-btn--accent {
+  border-color: #e30613;
+  color: #fff;
+  background: #e30613;
+}
+
+.brake-wear-page__methods-hint {
+  color: #6b7280;
+  font-size: 13px;
+  margin: 16px 0 14px;
+  max-width: 980px;
+}
+
+.wear-table-wrap {
+  margin-top: 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: auto;
+  background: #fff;
+}
+
+.wear-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.wear-table th,
+.wear-table td {
+  padding: 10px;
+  vertical-align: middle;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.wear-table thead th {
+  background: #f3f4f6;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 700;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.wear-table tbody tr {
+  background: #fff;
+}
+
+.wear-table tbody tr:hover {
+  background: #fafafa;
+}
+
+.wear-table td {
+  color: #111827;
+}
+
+.wear-table__col-photo {
+  width: 92px;
+}
+
+.wear-table__input {
+  min-width: 100px;
+  max-width: 130px;
+  font-size: 14px;
+  background: #f9fafb !important;
+  border: 1px solid #d1d5db !important;
+  color: #111827 !important;
+}
+
+.wear-table__input:focus {
+  border-color: rgba(227, 6, 19, 0.75) !important;
+  box-shadow: 0 0 0 2px rgba(227, 6, 19, 0.15) !important;
+}
+
+.wear-table__input--accent {
+  font-weight: 600;
+  color: #e30613 !important;
+}
+
+.wear-table__input--meta {
+  margin-top: 8px;
+  max-width: 110px;
+}
+
+.wear-table__resource {
+  display: grid;
+  gap: 2px;
+  font-weight: 600;
+}
+
+.wear-table__note {
+  min-width: 220px;
+  max-width: 320px;
+}
+
+.wear-table__inline-actions {
+  margin-top: 8px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.wear-table__actions {
+  min-width: 260px;
+  vertical-align: top;
+}
+
+.brake-wear-page__row-btn {
+  border: 1px solid #d1d5db;
+  background: #fff;
+  color: #1f2937;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.brake-wear-page__row-btn:last-child {
+  margin-right: 0;
+}
+
+.brake-wear-page__row-btn:hover:not(:disabled) {
+  border-color: #e30613;
+  color: #e30613;
+}
+
+.brake-wear-page__row-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.brake-wear-page__row-btn--danger {
+  border-color: #fecaca;
+  color: #b91c1c;
+}
+
+.brake-wear-page__delete-form {
+  margin: 0;
+}
+
+.brake-wear-page__delete-btn {
+  border: 1px solid #e30613;
+  background: #e30613;
+  color: #fff;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-weight: 600;
+}
+
+.brake-wear-page__delete-btn:hover:not(:disabled) {
+  background: #c70511;
+  border-color: #c70511;
+}
+
+.brake-wear-page__delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.brake-wear-page__thumb {
+  width: 62px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 9px;
+  border: 1px solid #d1d5db;
+  background: #111827;
 }
 
 .service-details-card {
@@ -320,7 +869,36 @@ body {
 }
 
 @media (max-width: 768px) {
+  .app-logo {
+    font-size: 26px;
+  }
+
+  .brake-wears-page__filter-row {
+    grid-template-columns: 1fr;
+  }
+
+  .brake-wears-page__filter-row--secondary {
+    grid-template-columns: 1fr;
+  }
+
   .clip-search-panel {
     grid-template-columns: 1fr;
+  }
+
+  .brake-wear-detail__title {
+    font-size: 34px;
+  }
+
+  .brake-wear-page__controls {
+    grid-template-columns: 1fr;
+  }
+
+  .brake-wear-page__header-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .wear-table__actions {
+    min-width: 220px;
   }
 }

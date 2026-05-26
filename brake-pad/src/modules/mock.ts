@@ -9,10 +9,38 @@ export type BrakePadService = {
   videoUrl?: string;
 };
 
-export type BrakePadCart = {
-  draftId: number;
+export type BrakeWearCart = {
   hasDraft: boolean;
-  itemsCount: number;
+  brakePadsCount: number;
+  id?: number;
+};
+
+export type BrakeWearStatus = "draft" | "formed" | "completed" | "rejected" | "deleted";
+
+export type BrakeWear = {
+  id: number;
+  status: BrakeWearStatus;
+  createdAt: string;
+  creatorLogin: string;
+  moderatorLogin?: string | null;
+  formingDate?: string | null;
+  finishDate?: string | null;
+  description?: string | null;
+  completedItemCount: number;
+};
+
+export type BrakePadWearLine = {
+  brakeWearId: number;
+  brakePadId: number;
+  count: number;
+  pricePerItem: number;
+  estimatedWearPercent: number | null;
+  brakePad: BrakePadService;
+};
+
+export type BrakeWearDetail = {
+  brakeWear: BrakeWear;
+  brakePads: BrakePadWearLine[];
 };
 
 export const MOCK_SERVICES: BrakePadService[] = [
@@ -55,16 +83,84 @@ export const MOCK_SERVICES: BrakePadService[] = [
   },
 ];
 
-export const MOCK_CART: BrakePadCart = {
-  draftId: 11,
+export const MOCK_BRAKE_WEAR_CART: BrakeWearCart = {
   hasDraft: true,
-  itemsCount: 2,
+  brakePadsCount: 2,
+  id: 11,
 };
 
 export function filterMockServicesByTitle(titleRaw?: string): BrakePadService[] {
   const title = titleRaw?.trim().toLowerCase() ?? "";
   if (!title) return MOCK_SERVICES;
   return MOCK_SERVICES.filter((service) => service.title.toLowerCase().includes(title));
+}
+
+export const MOCK_BRAKE_WEARS: BrakeWear[] = [
+  {
+    id: 11,
+    status: "draft",
+    createdAt: "2026-05-12T08:20:00Z",
+    creatorLogin: "demo_user",
+    moderatorLogin: null,
+    formingDate: null,
+    finishDate: null,
+    description: "Черновик по проверке ресурса тормозных колодок",
+    completedItemCount: 0,
+  },
+  {
+    id: 12,
+    status: "formed",
+    createdAt: new Date().toISOString(),
+    creatorLogin: "admin",
+    moderatorLogin: null,
+    formingDate: new Date().toISOString(),
+    finishDate: null,
+    description: "Сформированная заявка за сегодня",
+    completedItemCount: 1,
+  },
+  {
+    id: 13,
+    status: "completed",
+    createdAt: new Date().toISOString(),
+    creatorLogin: "admin",
+    moderatorLogin: "admin",
+    formingDate: new Date().toISOString(),
+    finishDate: new Date().toISOString(),
+    description: "Завершенная заявка",
+    completedItemCount: 1,
+  },
+];
+
+export const MOCK_BRAKE_WEAR_DETAIL: BrakeWearDetail = {
+  brakeWear: MOCK_BRAKE_WEARS[0],
+  brakePads: [
+    {
+      brakeWearId: 11,
+      brakePadId: 1,
+      count: 2,
+      pricePerItem: 5200,
+      estimatedWearPercent: 34.5,
+      brakePad: MOCK_SERVICES[0],
+    },
+    {
+      brakeWearId: 11,
+      brakePadId: 3,
+      count: 1,
+      pricePerItem: 4100,
+      estimatedWearPercent: 47.2,
+      brakePad: MOCK_SERVICES[2],
+    },
+  ],
+};
+
+export function cloneBrakeWearDetail(detail: BrakeWearDetail): BrakeWearDetail {
+  return {
+    brakeWear: { ...detail.brakeWear },
+    brakePads: detail.brakePads.map((line) => ({
+      ...line,
+      brakePad: { ...line.brakePad },
+    })),
+  };
 }
 
 export function fallbackImageUrl(): string {
@@ -92,4 +188,18 @@ export function resolveMediaUrl(key: string): string {
     return key;
   }
   return `${MINIO_PUBLIC_BASE}/${key.replace(/^\//, "")}`;
+}
+
+export const BRAKE_WEAR_CART_UPDATED_EVENT = "brake-wear-cart-updated";
+
+export function notifyBrakeWearCartUpdated() {
+  window.dispatchEvent(new CustomEvent(BRAKE_WEAR_CART_UPDATED_EVENT));
+}
+
+export function subscribeBrakeWearCart(handler: () => void) {
+  const listener = () => handler();
+  window.addEventListener(BRAKE_WEAR_CART_UPDATED_EVENT, listener);
+  return () => {
+    window.removeEventListener(BRAKE_WEAR_CART_UPDATED_EVENT, listener);
+  };
 }
